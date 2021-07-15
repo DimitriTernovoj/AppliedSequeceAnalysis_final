@@ -1,0 +1,6 @@
+channels:
+  - bioconda
+  - conda-forge
+  - default
+dependencies:
+  - roary=3.13.0

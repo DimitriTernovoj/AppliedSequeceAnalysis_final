@@ -1,0 +1,9 @@
+channels:
+  - bioconda
+  - anaconda
+  - conda-forge
+  - default
+dependencies:
+  - raxml-ng = 1.0.2
+  - biopython = 1.78
+  - matplotlib = 3.4.2

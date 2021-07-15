@@ -1,0 +1,52 @@
+samples: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/complete_sample.tsv"
+reference_genome: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/Ecoli_reference.fasta" #"/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/reference.fa"
+assembly_type: "de_novo"  #options: de_novo/reference_based
+
+trimmomatic:
+  sliding_window:
+    window_size: ""
+    requiredQuality: ""
+ 
+  minlen: ""  
+  
+  adapters: "" #"resources/NexteraPE-PE.fa"
+
+contamination_filter:
+  execution: "yes" #yes/no
+  kraken2_database: "resources/minikraken2_v2_8GB_201904_UPDATE"
+  krakentools:
+    taxonomy_IDs: "562 28384"
+    filter_type: "positive" #positive/negative
+    include_parents: "no" #yes/no
+    include_children: "no" #yes/no
+
+prokka:
+  genus: "Escherichia"
+  species: "coli"
+  extra: ""
+
+roary:
+  alignment_type: "fast" #Options: fast/accurate
+  extra: "" #extra options for advanced users (flag + value)
+
+phylogeny:
+  outgroup: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/Ecoli_outgroup.fna" #"/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/outgroup_ref.fna"
+  outgroup_sample_name: "2011C-3609" #"australia_ecoli"
+  blacklist:  "" #list samples to be excluded for phylogeny as a comma-separated list - do not use spaces after a comma!
+  bs_trees: "50"
+  extra: ""
+
+mlst:
+  execution: "yes" #yes/no
+  scheme: "ecoli" #"ecoli"
+  extra: ""
+
+antibiotic_resistance_genes:
+  execution: "yes" #yes/no
+  card_database: "resources/card.json"
+  extra: "--include_loose"
+
+
+#kraken2:
+#  status: "True" #executes kraken2 and multiqc if "True", else not
+#  database: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_Week8/asa_8/resources/minikraken2_v2_8GB_201904_UPDATE"

@@ -1,0 +1,6 @@
+channels:
+  - bioconda
+  - conda-forge
+  - default
+dependencies:
+  - rgi = 5.2
