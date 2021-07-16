@@ -1,52 +1,45 @@
-samples: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/complete_sample.tsv"
-reference_genome: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/Ecoli_reference.fasta" #"/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/reference.fa"
-assembly_type: "de_novo"  #options: de_novo/reference_based
+samples: "path/to/samples"
+reference_genome: "path/to/reference"
+assembly_type: ""  #Options: de_novo/reference_based
 
 trimmomatic:
   sliding_window:
-    window_size: ""
-    requiredQuality: ""
- 
-  minlen: ""  
-  
-  adapters: "" #"resources/NexteraPE-PE.fa"
+    window_size: "4"
+    requiredQuality: "15"
+  minlen: "40"  
+  adapters: "path/to/adapters" #optional
 
 contamination_filter:
-  execution: "yes" #yes/no
-  kraken2_database: "resources/minikraken2_v2_8GB_201904_UPDATE"
+  execution: "" #Options: yes/no
+  kraken2_database: "path/to/kraken2_database"
   krakentools:
-    taxonomy_IDs: "562 28384"
-    filter_type: "positive" #positive/negative
-    include_parents: "no" #yes/no
-    include_children: "no" #yes/no
+    taxonomy_IDs: "" #space separated list of taxonomy IDs
+    filter_type: "positive" #Options: positive/negative; positive = include IDs/negative = exclude IDs
+    include_parents: "no" #Options: yes/no; consider parents of IDs in filtering - optional
+    include_children: "no" #Options: yes/no; consider children of IDs in filtering - optional
 
 prokka:
-  genus: "Escherichia"
-  species: "coli"
+  genus: "" #genus name - optional
+  species: ""#species name - optional
   extra: ""
 
 roary:
   alignment_type: "fast" #Options: fast/accurate
-  extra: "" #extra options for advanced users (flag + value)
+  extra: ""
 
 phylogeny:
-  outgroup: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/Ecoli_outgroup.fna" #"/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_final_project/resources/outgroup_ref.fna"
-  outgroup_sample_name: "2011C-3609" #"australia_ecoli"
-  blacklist:  "" #list samples to be excluded for phylogeny as a comma-separated list - do not use spaces after a comma!
-  bs_trees: "50"
+  outgroup: "path/to/outgroup" #optional
+  outgroup_sample_name: "" #name for the outgroup - optional (mandatory if outgroup desired)
+  blacklist:  "" #comma separated list of Samples to exclude from phylogeny; do not use spaces after a commas! - optional
+  bs_trees: "50" # number of boosting trees used
   extra: ""
 
 mlst:
-  execution: "yes" #yes/no
-  scheme: "ecoli" #"ecoli"
+  execution: "yes" #Options: yes/no
+  scheme: "" #PubMLST scheme name - optional
   extra: ""
 
 antibiotic_resistance_genes:
-  execution: "yes" #yes/no
-  card_database: "resources/card.json"
-  extra: "--include_loose"
-
-
-#kraken2:
-#  status: "True" #executes kraken2 and multiqc if "True", else not
-#  database: "/storage/mi/dimit98/AppliedSequenceAnalysis/ASA_Week8/asa_8/resources/minikraken2_v2_8GB_201904_UPDATE"
+  execution: "yes" #Options: yes/no
+  card_database: "path/to/card_database" #optional
+  extra: ""

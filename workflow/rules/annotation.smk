@@ -5,7 +5,7 @@ rule prokka:
 		"results/annotation/{Sample}/{Sample}.gff"
 	log:
 		"logs/annotation/{Sample}.log"
-	threads: 8
+	threads: workflow.cores
         conda:
                 "../envs/annotation.yaml"
 	params:
@@ -22,7 +22,7 @@ rule outgroup_prokka:
 		expand("results/annotation/outgroup/{outgroup_sample_name}.gff", outgroup_sample_name = config["phylogeny"]["outgroup_sample_name"])
 	log:
 		"logs/annotation/outgroup.log"
-	threads: 8
+	threads: workflow.cores
 	conda:
 		"../envs/annotation.yaml"
 	params:

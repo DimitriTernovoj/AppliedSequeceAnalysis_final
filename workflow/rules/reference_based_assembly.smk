@@ -30,7 +30,7 @@ rule bwa_mem:
 	params:
 		ref = config["reference_genome"],
 		ref_index = "results/reference_based_assembly/ref_index/ref_index"
-	threads: 8
+	threads: workflow.cores
 	shell:
 		"bwa mem -t {threads} {params.ref_index} {input.fastq1} {input.fastq2} -o {output} 1> {log} 2>&1"
 		
@@ -55,7 +55,7 @@ rule samtools_sorting:
 		"../envs/reference_based_assembly.yaml"
 	log:
 		"logs/reference_based_assembly/samtools/{Sample}_sorted.log"
-	threads: 8
+	threads: workflow.cores * 0.5
 	shell:
 		"samtools sort -@ {threads} -o {output} -O bam {input} 1> {log} 2>&1"
 
@@ -68,38 +68,9 @@ rule samtools_indexing:
                 "../envs/reference_based_assembly.yaml"
         log:
                 "logs/reference_based_assembly/samtools/{Sample}_indexed.log"
-        threads: 8
+        threads: workflow.cores * 0.5
         shell:
                 "samtools index -@ {threads} {input} {output} 1> {log} 2>&1"
-
-#rule samtools_pileup:
-#	input:
-#		"results/reference_based_assembly/{Sample}/bwa_assembly_sorted.bam",
-#		"results/reference_based_assembly/{Sample}/bwa_assembly_sorted.bai"
-#	output:
-#		"results/reference_based_assembly/{Sample}/assembly.pileup"
-#	conda:
-#             "../envs/reference_based_assembly.yaml"
-#	log:
-#		"logs/reference_based_assembly/samtools/{Sample}_pileup.log"
-#	params:
-#		ref = config["reference_genome"]
-#	shell:
-#		"samtools mpileup -o {output} -X {input[0]} {input[1]} 1> {log} 2>&1"
-
-#rule ivar:
-#        input:  
-#                "results/reference_based_assembly/{Sample}/assembly.pileup"
-#        output: 
-#                "results/reference_based_assembly/ivar/{Sample}/assembly.fasta"
-#        conda:  
-#                "../envs/reference_based_assembly.yaml"
-#        log:
-#                "logs/reference_based_assembly/ivar/{Sample}.log"
-#        threads: 8
-#        shell:  
-#                "ivar consensus {input} -p assembly -i {wildcards.Sample} > {output}"
-
 
 rule ivar:
         input:  

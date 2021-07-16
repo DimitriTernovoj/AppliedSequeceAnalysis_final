@@ -5,7 +5,7 @@ rule RGI:
 		"results/antibiotic_resistance_genes/{Sample}.txt"
 	log:
 		"logs/antibiotic_resistance_genes/{Sample}.log"
-	threads: 8
+	threads: workflow.cores
 	conda:
 		"../envs/antibiotic_resistance_genes.yaml"
 	params:

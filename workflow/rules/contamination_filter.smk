@@ -11,7 +11,7 @@ rule kraken2:
 		"../envs/contamination_filter.yaml"
 	params:
 		database = config["contamination_filter"]["kraken2_database"]
-	threads: 8
+	threads: workflow.cores
 	shell:
 		"kraken2 --db {params.database} --threads {threads} --gzip-compressed --paired {input.fq1} {input.fq2} --report {output[0]} --output {output[1]} 1> {log} 2>&1"
 
@@ -51,34 +51,4 @@ rule kraken_tools:
 	shell:
 		"extract_kraken_reads.py -k {input[0]} -r {input[1]} -s1 {input[2]} -s2 {input[3]} -o {output[0]} -o2 {output[1]} -t {params.taxonomy_list} {params.filter_type} {params.parents} {params.children} --fastq-output 1> {log} 2>&1"
 
-#rule kraken2_temp:
-#        input:
-#                "results/decontaminated_reads/{Sample}_1.fq",
-#                "results/decontaminated_reads/{Sample}_2.fq"
-#        output:
-#                "results/temp/report_{Sample}.tsv"
-#        log:
-#                "logs/contamination_filter/kraken2/{Sample}.log"
-#        conda:
-#                "../envs/contamination_filter.yaml"
-#        params:
-#                database = config["contamination_filter"]["kraken2_database"]
-#        threads: 8
-#        shell:
-#                "kraken2 --db {params.database} --threads {threads} --paired {input[0]} {input[1]} --report {output}"
-
-#rule contamination_info_temp:
-#        input:   
-#                expand("results/temp/report_{Sample}.tsv", Sample=list(samples.index))
-#        output:
-#                "results/temp/multiqc/multiqc_contamination.html"
-#        #log:
-#        #        "logs/multiqc/multiqc_contamination.log"
-#        conda:
-#                "../envs/qc.yaml"
-#        params:
-#                outdir = "results/temp/multiqc",
-#                input = "results/temp"
-#        shell:
-#                "multiqc -n multiqc_contamination.html -o {params.outdir} {params.input}"
 

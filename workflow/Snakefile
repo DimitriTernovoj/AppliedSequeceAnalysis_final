@@ -6,22 +6,7 @@ samples = pd.read_table(config["samples"], index_col = "sample")
 
 rule all:
     input:
-        #expand(["results/trimmed_reads/{Sample}_1_trimmed_pe.fastq.gz", "results/trimmed_reads/{Sample}_2_trimmed_pe.fastq.gz"], Sample=list(samples.index))
-        #expand(["results/de_novo_assembly/bbnorm/normalized_{Sample}_1.fastq.gz","results/de_novo_assembly/bbnorm/normalized_{Sample}_2.fastq.gz"], Sample=list(samples.index))
-        #expand("results/de_novo_assembly/assembly/{Sample}/scaffolds.fasta", Sample=list(samples.index))
-        #expand("results/de_novo_assembly/abacas/{Sample}/final_assembly.fasta", Sample=list(samples.index))
-        #expand("results/assembly_statistics/{Sample}/report.txt", Sample=list(samples.index))        
-        #expand("results/reference_based_assembly/ivar/{Sample}/assembly.fa", Sample=list(samples.index))
-        #expand("results/annotation/{Sample}/{Sample}_annotated.gff", Sample=list(samples.index))
-        #"results/mlst/mlst.tsv", "results/phylogeny/newick_tree.png", expand("results/antibiotic_resistance_genes/{Sample}.txt", Sample=list(samples.index))        
-	#"results/annotation/{Sample}/{Sample}_annotated.gff"
-	#"results/phylogeny/newick_tree.png"
-        #expand("results/assembly_statistics/{Sample}/report.txt", Sample=list(samples.index))
-        #expand("results/annotation/outgroup/{outgroup_sample_name}.gff", outgroup_sample_name = config["phylogeny"]["outgroup_sample_name"]), "results/phylogeny/newick_tree.png"
-        #expand("results/antibiotic_resistance_genes/{Sample}.txt", Sample= list(samples.index)),"results/mlst/mlst.tsv", "results/phylogeny/newick_tree.png"
-        #expand(["results/first_fastqc/{Sample}/{Sample}{Orientation}.html","results/trimmed_reads/{Sample}{Orientation}_trimmed_pe.fastq.gz"], Sample = list(samples.index), Orientation = ["_1","_2"])
         "results/phylogeny/newick_tree.png", "results/mlst/mlst.tsv" if config["mlst"]["execution"] == "yes" else [], "results/antibiotic_resistance_genes/heatmap.png" if config["antibiotic_resistance_genes"]["execution"] == "yes" else [], "results/multiqc/multiqc_qc.html", "results/multiqc/multiqc_contamination.html" if config["contamination_filter"]["execution"] == "yes" and config["assembly_type"] == "de_novo" else [], expand("results/assembly_statistics/{Sample}/report.txt", Sample=list(samples.index)), "results/multiqc/multiqc_assembly.html"
-        #expand("results/reference_based_assembly/ivar/{Sample}/assembly.fa", Sample = list(samples.index))
 
 include: "rules/qc.smk"
 include: "rules/contamination_filter.smk"
@@ -33,7 +18,3 @@ include: "rules/mlst.smk"
 include: "rules/core_genome_alignment.smk"
 include: "rules/phylogeny.smk"
 include: "rules/antibiotic_resistance_genes.smk"
-#include: "rules/MSA.smk"
-#include: "rules/phylogeny.smk"
-#include: "rules/seq_variability.smk"
-#include: "rules/kraken.smk"
