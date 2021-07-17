@@ -5,7 +5,7 @@ rule quast:
 		"results/assembly_statistics/{Sample}/report.txt"
 	log:
 		"logs/assembly_statistics/{Sample}.log"
-	threads: workflow.cores * 0.5
+	threads: min(workflow.cores,4)
 	conda:
 		"../envs/assembly.yaml"
 	params:
